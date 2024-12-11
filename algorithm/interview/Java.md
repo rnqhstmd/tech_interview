@@ -143,3 +143,77 @@
 
     - 여러 스레드가 동시에 공유 자원에 대해 접근하여 발생하는 문제이다. 따라서 멀테 스레드 환경에서 발생된다.
     - 동시성을 제어하기 위해 암시적 Lock, 명시적 Lock, 스레드에 안전한 객체를 사용하는 것등의 방법이 있다.
+
+- Mutable 객체와 Immutable 객체의 차이점에 대해 설명해주세요.
+
+  ### Mutable(가변객체) 속성
+
+    - heap 영역에 생성된 객체를 변경할 수 있다.
+    - 예시 : List, ArrayList, HashMap, StringBuilder, StringBuffer 등
+    - 멀티 스레드 환경에서 사용하려면 별도의 동기화 처리가 필요하다.
+        - StringBuffer에 할당된 후 StringBuilder의 값을 abc에서 abcdef로 변경했을 때 메모리 주소 값이 변경되지 않았다. 이는 곳 이 메모리 주소에 할당된 값이 abcdef로 변경됐다는 것을 알 수 있다. ⇒ 기존의 수정사항을 바로 반영하기에 Mutable하다는 것.
+
+  ### Immutable(불변 객체) 속성
+
+    - 변경이 불가능하다.
+    - String, Boolean, Integer, Float, Long 등
+    - 불변 객체를 생성하면 heap 영역에 객체가 생성될 것이고, 이 주소값을 가지는 변수가 스택에 생긴다. ⇒ 즉 불변 객체는 이 객체에 대한 값을 heap 영역에서 수정할 수 없다는 것!
+        - str 변수에 값을 할당한 후 값을 변경했을 때 메모리 주소값도 변경된다. 즉 처음에 할당한 메모리 주소의 값이 변경된 것이 아닌 새로운 메모리 주소에 값을 할당하여 값이 수정된 게 아니라 새로 생성된 것이다. 즉 heap에서 새로운 값을 가진 객체를 생성한 것이고, 이에 따라 주소값도 변경되었다.
+
+  ### 차이점
+
+    - 가변객체는 값 수정이 가능하고, 불변객체는 불가능
+    - 가변객체는 값을 변경할 수 있는 메서드를 제공하지만, 불변객체는 그런거 없다.
+    - mutable class는 getter setter이 존재하지만, immutable class는 그런거 없다.
+    - 가변객체는 스레드 safe하지 않을 수 있다(병럴처리 값 보장 못함) 하지만 불변객체는 스레드 safe하다.
+- 자바에서 null을 안전하게 다루는 방법에 대해 설명해주세요.
+
+  ### null 이란?
+
+    - Null은 값이 할당되지 않은 변수라는 의미이다.
+
+  ## null을 안전하게 다루는 방법
+
+  ### 자바 기본 장지
+
+    1. 단정문 (Assertion)
+        - Assertion은 부울식(Expression)을 포함하고 있는 문장으로, 그 문장이 실행될 경우 boolean식이 참이라고 단언할 수 있음.
+        - 즉 개발자가 본인의 코드에서 가정한 사실이 올바른지 검사가 가능하다.
+        - Assertion은 예외 처리가 아닌 검사 기능이다.
+        - Assertion을 통해 개발자가 의도한 조건이나 변수 값, 자료형을 검증, 검사할 수 있다.
+    2. Java.util.Objects
+        - isNull(Object obj)
+        - nonNull(Object obj)
+        - requireNonNull(T obj)
+        - requireNonNull(T obj, String message)
+        - requireNonNull(T obj, Supplier<String> messageSupplier)
+    3. Optional 사용
+
+  ### null 잘 쓰는 방법
+
+    - API에 null 쓰지 말자
+    - null 반환하지 말자
+    - 사전조건과 사후조건을 항상 확인하자
+    - null의 범위를 클래스, 메서드같은 지역에 제한해두자.
+    - 초기화는 명확하게.
+
+  ### null에 안전하다고 보장하는 도구
+
+    - Optional 사용
+    - NonNull, Nullable 어노테이션 사용
+- JDK와 JRE의 차이점을 설명하세요.
+
+  ### JRE(Java Runtime Environment)
+
+    - JRE란 자바실행환경으로 자바 프로그램을 돌리는데 필요한 것이다.
+    - 즉 자바 프로그램만 실행하는데에는 문제 없지만 자바 프로그램을 코딩(개발)할 때 컴파일 에러가 날 수 있다.
+
+  ### JDK(Java Development Kit)
+
+    - 자바 개발 키트이다. 자바를 개발하는데 필요한 기능들이 들어간 것!
+    - jdk에도 jre가 포함되어있지만, 자바 프로그램 개발을 위해선 JDK를 다운로드 받아 컴파일 돌려야한다.
+
+  ### 차이점
+
+    - 즉 자바 프로그램을 실행시키는 데 필요한 것 ⇒ JRE
+    - 자바 프로그램을 코딩(개발)할거라면 ⇒ JDK, JDK를 다운로드받으면 JRE도 포함되어있어 실행하는 것도 가능하다.
